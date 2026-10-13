@@ -1,5 +1,5 @@
 import Link from 'next/link';
-
+import { Suspense } from 'react';
 
 const Card = ({ product }) => {
 
@@ -10,7 +10,8 @@ const Card = ({ product }) => {
 
     return (
      
-        <Link href={`/product/${product.id}`}> <div
+        <Suspense fallback='Loding Bazar....'>
+          <Link href={`/product/${product.id}`}> <div
               key={product.id}
               className="rounded-xl border border-[#e0e8e0] bg-[#fbfdfb] p-3 transition hover:shadow-md"
             >
@@ -74,6 +75,7 @@ const Card = ({ product }) => {
                 </span>
               </div>
             </div></Link>
+        </Suspense>
     );
 };
 

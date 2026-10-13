@@ -3,7 +3,11 @@ import React from 'react';
 import Card from '@/app/components/card/card';
 
 const page = async () => {
-    const data = await fetch(process.env.DAL_API);
+ try{
+       const data = await fetch(process.env.DAL_API);
+    if (!data.ok) {
+     throw new Error("Failed to fetch products");
+     }
     const products = await data.json();
     console.log(products);
     
@@ -20,6 +24,16 @@ const page = async () => {
    </div>
   
   );
+ }
+    catch (error) {
+    console.error('Error fetching products:', error);
+
+    return (
+      <div className="my-4 px-5 text-red-500">
+        Failed to load products. Please try again later.
+      </div>
+    );
+  }
 };
 
 export default page;
