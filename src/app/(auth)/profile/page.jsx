@@ -7,7 +7,9 @@ export default function Page() {
   const onSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = {};
+    const formEntries = Object.formEntries(formData.entries())
+    console.log(formEntries);
+    
 
    
 

@@ -1,5 +1,5 @@
 // import Link from 'next/link';
-import React from 'react';
+
 import Card from '@/app/components/card/card';
 
 const page = async () => {
@@ -20,7 +20,7 @@ const page = async () => {
         products.map((product) => (
         <Card key={product.id} product={product} />
     ))}
-    
+
    </div>
    </div>
   
