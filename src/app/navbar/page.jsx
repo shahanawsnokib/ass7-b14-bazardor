@@ -82,7 +82,7 @@ export default function Navbar() {
              <div className="flex items-center gap-2">
       {/* Sign In */}
       <Link
-        href="/login"
+        href="/sign-in"
         className="rounded-lg border border-green-700 px-4 py-2 text-sm font-semibold text-green-700 transition hover:bg-green-50"
       >
         সাইন ইন
@@ -90,7 +90,7 @@ export default function Navbar() {
 
       {/* Sign Up */}
       <Link
-        href="/register"
+        href="/sign-up"
         className="rounded-lg bg-green-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-800"
       >
         সাইন আপ
