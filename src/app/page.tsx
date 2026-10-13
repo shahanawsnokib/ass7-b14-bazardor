@@ -1,9 +1,16 @@
 // import Image from "next/image";
+// import Image from "next/image";
+import Banner from './components/banner/page'
+import Products from './product/page'
+import PriceUpDown from './pricesUpDown/page'
+
 
 export default function Home() {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Banner></Banner>
+      <PriceUpDown></PriceUpDown>
+      <Products></Products>
     </div>
   );
 }

@@ -10,11 +10,21 @@ const categories = [
   { name: "সবজি", icon: "🥬", href: "/category/shobji" },
   { name: "মাছ", icon: "🐟", href: "/category/mach" },
   { name: "মাংস", icon: "🍗", href: "/category/mangsho" },
-  { name: "চিনি-দুধ", icon: "🥛", href: "/category/chini-dudh" },
+  { name: "ডিম-দই", icon: "🥛", href: "/category/dim-dui" },
   { name: "মসলা", icon: "◻️", href: "/category/moshla" },
 ];
 
+// const categories = async () => {
+//     const categoriesData = await fetch("https://api.api-store.workers.dev/api/bazardor/categories")
+//     const rescategories = await categoriesData.json()
+//     return rescategories
+//     console.log(rescategories);
+    
+// }
+
 export default function Navbar() {
+
+
   const [dateTime, setDateTime] = useState("");
 
   useEffect(() => {
