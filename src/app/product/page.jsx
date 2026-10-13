@@ -20,6 +20,7 @@ const page = async () => {
         products.map((product) => (
         <Card key={product.id} product={product} />
     ))}
+    
    </div>
    </div>
   

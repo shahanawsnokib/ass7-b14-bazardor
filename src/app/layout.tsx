@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
+import { Suspense } from "react";
+// import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,12 +34,15 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-white text-black">
         <div className="container mx-auto flex flex-1 flex-col px-10">
           <header>
+            <Suspense fallback="Loading....">
             <Navbar />
+            </Suspense>
           </header>
-
+         <Suspense fallback="Loading....">
           <main className="flex-1">
             {children}
           </main>
+          </Suspense>
 
           <footer className="mt-auto mb-1">
             <Footer />

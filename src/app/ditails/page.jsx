@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MarketPricePage = () => {
+const Page = () => {
     // প্রদত্ত এপিআই ডাটা
     const data = {
       "id": 1,
@@ -149,4 +149,4 @@ const MarketPricePage = () => {
     );
 };
 
-export default MarketPricePage;
+export default Page;
