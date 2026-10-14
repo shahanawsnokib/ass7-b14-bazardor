@@ -2,7 +2,7 @@
 import Card from '../components/card/card'
 
 const page = async () => {
- const res = await fetch(process.env.All_PRODUCT_API)
+    const res = await fetch(process.env.All_PRODUCT_API)
  const data = await res.json()
  const products = data;
 const priceIncreased = products.filter(
