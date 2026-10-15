@@ -3,30 +3,46 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const categories = [
-  { name: "চাল", icon: "🌐", href: "/category/chal" },
-  { name: "ডাল", icon: "◻️", href: "/category/dal" },
-  { name: "তেল", icon: "◻️", href: "/category/tel" },
-  { name: "সবজি", icon: "🥬", href: "/category/shobji" },
-  { name: "মাছ", icon: "🐟", href: "/category/mach" },
-  { name: "মাংস", icon: "🍗", href: "/category/mangsho" },
-  { name: "ডিম-দই", icon: "🥛", href: "/category/dim-dui" },
-  { name: "মসলা", icon: "◻️", href: "/category/moshla" },
-];
-
-// const categories = async () => {
-//     const categoriesData = await fetch("https://api.api-store.workers.dev/api/bazardor/categories")
-//     const rescategories = await categoriesData.json()
-//     return rescategories
-//     console.log(rescategories);
-    
-// }
+const CATEGORY_API =process.env.NEXT_PUBLIC_CATEGORY_API_NAV;
 
 export default function Navbar() {
-
-
   const [dateTime, setDateTime] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await fetch(CATEGORY_API);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid category data");
+        }
+
+        setCategories(data);
+      } catch (err) {
+        console.error("Category fetch error:", err);
+        setError("ক্যাটাগরি লোড করা যায়নি");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Update Bangladesh date and time
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
@@ -58,63 +74,74 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="w-full mx-auto bg-[#fbfdfb] text-[#18251d]">
-      {/* Logo and Dynamic Date & Time */}
-      <div className="flex items-center gap-2.5 px-4 py-3 md:px-5">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-700 text-2xl text-white">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-[#fbfdfb] text-[#18251d] shadow-sm">
+      {/* Logo, Date & Authentication */}
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 py-3 sm:px-5 md:gap-4 md:px-6">
+        <Link
+          href="/"
+          aria-label="বাজার দর হোম"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-700 text-2xl text-white transition hover:bg-green-800 sm:h-12 sm:w-12"
+        >
           🛒
-        </div>
+        </Link>
 
-        <div className="flex flex-1 items-center justify-between gap-2.5">
-         <div>
-             <Link
+        <div className="min-w-0 flex-1">
+          <Link
             href="/"
-            className="block text-2xl font-extrabold leading-tight"
+            className="block truncate text-xl font-extrabold leading-tight sm:text-2xl"
           >
             বাজার দর
           </Link>
 
-          <p className="mt-1 text-xs text-gray-700">
+          <p className="mt-1 text-[10px] leading-relaxed text-gray-600 sm:text-xs">
             {dateTime || "তারিখ ও সময় লোড হচ্ছে..."}
           </p>
-         </div>
-         <div>
-             <div className="flex items-center gap-2">
-      {/* Sign In */}
-      <Link
-        href="/sign-in"
-        className="rounded-lg border border-green-700 px-4 py-2 text-sm font-semibold text-green-700 transition hover:bg-green-50"
-      >
-        সাইন ইন
-      </Link>
+        </div>
 
-      {/* Sign Up */}
-      <Link
-        href="/sign-up"
-        className="rounded-lg bg-green-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-800"
-      >
-        সাইন আপ
-      </Link>
-    </div>
-         </div>
+        {/* Authentication Links */}
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <Link
+            href="/sign-in"
+            className="rounded-lg border border-green-700 px-2.5 py-2 text-xs font-semibold text-green-700 transition hover:bg-green-50 sm:px-4 sm:text-sm"
+          >
+            সাইন ইন
+          </Link>
+
+          <Link
+            href="/sign-up"
+            className="rounded-lg bg-green-700 px-2.5 py-2 text-xs font-semibold text-white transition hover:bg-green-800 sm:px-4 sm:text-sm"
+          >
+            সাইন আপ
+          </Link>
         </div>
       </div>
 
-      {/* Category Navigation */}
-      <nav className="border-t border-gray-200/70">
-        <ul className="flex items-center justify-start gap-5 overflow-x-auto px-5 py-3.5 text-sm font-semibold whitespace-nowrap">
-          {categories.map((category) => (
-            <li key={category.name} className="shrink-0">
-              <Link
-                href={category.href}
-                className="flex items-center  gap-1.5 transition-colors hover:text-green-700"
-              >
-                <span>{category.icon}</span>
-                <span>{category.name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      {/* Dynamic Category Navigation */}
+      <nav
+        aria-label="পণ্যের ক্যাটাগরি"
+        className="border-t border-gray-200/70"
+      >
+        <div className="mx-auto max-w-7xl">
+          <ul className="flex items-center gap-4 overflow-x-auto px-3 py-3 text-sm font-semibold whitespace-nowrap sm:gap-6 sm:px-5 md:px-6">
+            {loading ? (
+              <li className="text-gray-500">ক্যাটাগরি লোড হচ্ছে...</li>
+            ) : error ? (
+              <li className="text-red-600">{error}</li>
+            ) : (
+              categories.map((category) => (
+                <li key={category.id} className="shrink-0">
+                  <Link
+                    href={`/category/${category.slug}`}
+                    className="flex items-center gap-1.5 rounded-md py-1 text-gray-700 transition-colors hover:text-green-700"
+                  >
+                    <span aria-hidden="true">{category.icon}</span>
+                    <span>{category.nameBn}</span>
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
       </nav>
     </header>
   );

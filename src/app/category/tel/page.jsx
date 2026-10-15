@@ -5,7 +5,7 @@ import Card from '@/app/components/card/card';
 const page = async () => {
     try{const data = await fetch(process.env.TEL_API);
     const products = await data.json();
-    console.log(products);
+   
     
 
     
