@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '@/app/components/card/card';
 
 const page = async () => {
-  try{  const data = await fetch(process.env.DIM_DOI_API);
+  try{  const data = await fetch(process.env.DIM_DOI_API, {cache:'no-cache'});
     if (!data.ok) {
      throw new Error("Failed to fetch products");
      }

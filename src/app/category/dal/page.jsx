@@ -4,7 +4,7 @@ import Card from '@/app/components/card/card';
 
 const page = async () => {
  try{
-       const data = await fetch(process.env.DAL_API);
+       const data = await fetch(process.env.DAL_API, {cache:'no-cache'});
     if (!data.ok) {
      throw new Error("Failed to fetch products");
      }

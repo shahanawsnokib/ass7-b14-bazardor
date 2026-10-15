@@ -3,7 +3,7 @@
 import Card from '@/app/components/card/card';
 
 const page = async () => {
-    const data = await fetch(process.env.All_PRODUCT_API);
+    const data = await fetch(process.env.All_PRODUCT_API, {cache:'no-cache'});
     const products = await data.json();
     
 

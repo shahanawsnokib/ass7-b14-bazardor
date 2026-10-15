@@ -18,7 +18,7 @@ export default function Navbar() {
         setLoading(true);
         setError("");
 
-        const response = await fetch(CATEGORY_API);
+        const response = await fetch(CATEGORY_API, {cache:'no-cache'});
 
         if (!response.ok) {
           throw new Error("Failed to fetch categories");

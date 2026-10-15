@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 
 const page = async () => {
   try {
-    const data = await fetch(process.env.CHAL_API);
+    const data = await fetch(process.env.CHAL_API, {cache:'no-cache'});
 
     if (!data.ok) {
       throw new Error('Failed to fetch products');

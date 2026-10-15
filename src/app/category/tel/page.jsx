@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '@/app/components/card/card';
 
 const page = async () => {
-    try{const data = await fetch(process.env.TEL_API);
+    try{const data = await fetch(process.env.TEL_API, {cache:'no-cache'});
     const products = await data.json();
    
     

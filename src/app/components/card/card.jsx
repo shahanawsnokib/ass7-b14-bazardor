@@ -21,7 +21,7 @@ const Card = ({ product }) => {
                   {product.image &&
                   !/^[\p{L}\p{N}\s]+$/u.test(product.image)
                     ? product.image
-                    : "🍚"}
+                    : " "}
                 </div>
 
                 <div>
