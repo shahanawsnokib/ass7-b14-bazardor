@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+// import Marquess from './Marquess'
 
 const CATEGORY_API =process.env.NEXT_PUBLIC_CATEGORY_API_NAV;
 
@@ -74,7 +75,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-[#fbfdfb] text-[#18251d] shadow-sm">
+ <div>
+     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-[#fbfdfb] text-[#18251d] shadow-sm">
       {/* Logo, Date & Authentication */}
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 py-3 sm:px-5 md:gap-4 md:px-6">
         <Link
@@ -143,6 +145,9 @@ export default function Navbar() {
           </ul>
         </div>
       </nav>
+         {/* <Marquess></Marquess> */}
     </header>
+ 
+ </div>
   );
 }

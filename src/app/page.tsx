@@ -1,5 +1,6 @@
 // import Image from "next/image";
 // import Image from "next/image";
+import Marquess from '../app/navbar/Marquess'
 import Banner from './components/banner/page'
 import Products from './product/page'
 import PriceUpDown from './pricesUpDown/page'
@@ -8,6 +9,7 @@ import PriceUpDown from './pricesUpDown/page'
 export default function Home() {
   return (
     <div>
+      <Marquess></Marquess>
       <Banner></Banner>
       <PriceUpDown></PriceUpDown>
       <Products></Products>
