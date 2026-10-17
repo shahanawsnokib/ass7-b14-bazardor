@@ -1,179 +1,107 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import {
-  Button,
-  Description,
-  FieldError,
-  FieldGroup,
-  Form,
-  Input,
-  Label,
-  TextField,
-} from "@heroui/react";
+import {Check} from "@gravity-ui/icons";
+import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
+import { authClient } from "../../../lib/auth-client";
+import { redirect } from "next/navigation";
 
-export default function Page() {
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const onSubmit = (e) => {
+export default function page() {
+  const onSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
+    const Userdata = Object.fromEntries(formData.entries());
+console.log(Userdata);
 
-    const name = formData.get("name")?.toString().trim();
-    const email = formData.get("email")?.toString().trim();
-    const password = formData.get("password")?.toString();
-    const confirmPassword = formData
-      .get("confirmPassword")
-      ?.toString();
 
-    setError("");
-    setSuccess("");
+   const {data, error} = await authClient.signUp.email({
+      ...Userdata,
+   
+    })
 
-    if (password.length < 8) {
-      setError("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।");
-      return;
+    if(data){
+      redirect("/")
+      console.log(data);
+      
+    }
+    if(error){
+      console.log(error);
+      
     }
 
-    if (password !== confirmPassword) {
-      setError("দুটি পাসওয়ার্ড মিলছে না।");
-      return;
-    }
+    // Convert FormData to plain object
+   
 
-    const formEntries = Object.fromEntries(formData.entries());
-
-    console.log({
-      name,
-      email,
-      ...formEntries,
-    });
-
-    setSuccess("ফর্মটি সঠিকভাবে পূরণ করা হয়েছে!");
+    // alert(`Form submitted with: ${JSON.stringify(data, null, 2)}`);
   };
 
   return (
-    <main className="min-h-screen bg-[#f0f5f0] px-4 py-8 text-[#26352b]">
-      <div className="mx-auto w-full max-w-md">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-extrabold">
-            অ্যাকাউন্ট তৈরি করুন
-          </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-[#e0e8e0] bg-[#fbfdfb] p-6 shadow-sm sm:p-7">
-          <Form onSubmit={onSubmit} className="w-full">
-            <FieldGroup className="gap-4">
-              <TextField isRequired name="name">
-                <Label>নাম</Label>
-                <Input
-                  placeholder="যেমন: রহিম উদ্দিন"
-                  autoComplete="name"
-                  className="border-[#dce6dc]"
-                />
-                <FieldError />
-              </TextField>
-
-              <TextField isRequired name="email" type="email">
-                <Label>ইমেইল</Label>
-                <Input
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                />
-                <FieldError />
-              </TextField>
-
-              <TextField isRequired name="password">
-                <Label>পাসওয়ার্ড</Label>
-                <Input
-                  type="password"
-                  placeholder="কমপক্ষে ৮ অক্ষর"
-                  autoComplete="new-password"
-                />
-                <FieldError />
-              </TextField>
-
-              <TextField isRequired name="confirmPassword">
-                <Label>পাসওয়ার্ড নিশ্চিত করুন</Label>
-                <Input
-                  type="password"
-                  placeholder="আবার লিখুন"
-                  autoComplete="new-password"
-                />
-                <FieldError />
-              </TextField>
-            </FieldGroup>
-
-            {error && (
-              <p className="mt-3 text-sm text-red-600" role="alert">
-                {error}
-              </p>
-            )}
-
-            {success && (
-              <p className="mt-3 text-sm text-green-700" role="status">
-                {success}
-              </p>
-            )}
-
-            <Button
-              type="submit"
-              className="mt-5 w-full bg-green-700 font-bold text-white shadow-md hover:bg-green-800"
-            >
-              অ্যাকাউন্ট তৈরি করুন
-            </Button>
-          </Form>
-
-          <div className="my-5 flex items-center gap-3">
-            <div className="h-0.5 flex-1 bg-gray-300" />
-            <span className="text-sm text-gray-600">অথবা</span>
-            <div className="h-0.5 flex-1 bg-gray-300" />
-          </div>
-
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full border-[#dce6dc] bg-transparent"
-              onPress={() => alert("Google authentication এখনো যুক্ত করা হয়নি।")}
-            >
-              🌐 Google দিয়ে চালিয়ে যান
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full border-[#dce6dc] bg-transparent"
-              onPress={() => alert("GitHub authentication এখনো যুক্ত করা হয়নি।")}
-            >
-              ◉ GitHub দিয়ে চালিয়ে যান
-            </Button>
-          </div>
-
-          <p className="mt-5 text-center text-sm">
-            অ্যাকাউন্ট আছে?{" "}
-            <Link
-              href="/sign-in"
-              className="font-medium text-green-700 hover:underline"
-            >
-              সাইন ইন করুন
-            </Link>
-          </p>
-        </div>
-
-        <div className="mt-6 text-center">
-          <Link
-            href="/"
-            className="text-sm text-gray-600 hover:text-green-700"
+    <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+    
+       <TextField
+            isRequired
+            name="name"
+            validate={(value) => {
+              if (value.length < 3) {
+                return "Name must be at least 3 characters";
+              }
+              return null;
+            }}
           >
-            ← হোম পেজে ফিরে যান
-          </Link>
-        </div>
+            <Label>Name</Label>
+            <Input placeholder="John Doe" />
+            <FieldError />
+          </TextField>
+      <TextField
+        isRequired
+        name="email"
+        type="email"
+        validate={(value) => {
+          if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+            return "Please enter a valid email address";
+          }
+
+          return null;
+        }}
+      >
+        <Label>Email</Label>
+        <Input placeholder="john@example.com" />
+        <FieldError />
+      </TextField>
+
+      <TextField
+        isRequired
+        minLength={8}
+        name="password"
+        type="password"
+        validate={(value) => {
+          if (value.length < 8) {
+            return "Password must be at least 8 characters";
+          }
+          if (!/[A-Z]/.test(value)) {
+            return "Password must contain at least one uppercase letter";
+          }
+          if (!/[0-9]/.test(value)) {
+            return "Password must contain at least one number";
+          }
+
+          return null;
+        }}
+      >
+        <Label>Password</Label>
+        <Input placeholder="Enter your password" />
+        <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
+        <FieldError />
+      </TextField>
+
+      <div className="flex gap-2">
+        <Button type="submit">
+          <Check />
+          Submit
+        </Button>
+        <Button type="reset" variant="secondary">
+          Reset
+        </Button>
       </div>
-    </main>
+    </Form>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-// import Marquess from './Marquess'
+import LoginButton from './loginButton'
+
 
 const CATEGORY_API =process.env.NEXT_PUBLIC_CATEGORY_API_NAV;
 
@@ -101,21 +102,7 @@ export default function Navbar() {
         </div>
 
         {/* Authentication Links */}
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          <Link
-            href="/sign-in"
-            className="rounded-lg border border-green-700 px-2.5 py-2 text-xs font-semibold text-green-700 transition hover:bg-green-50 sm:px-4 sm:text-sm"
-          >
-            সাইন ইন
-          </Link>
-
-          <Link
-            href="/sign-up"
-            className="rounded-lg bg-green-700 px-2.5 py-2 text-xs font-semibold text-white transition hover:bg-green-800 sm:px-4 sm:text-sm"
-          >
-            সাইন আপ
-          </Link>
-        </div>
+        <LoginButton/>
       </div>
 
       {/* Dynamic Category Navigation */}
@@ -145,7 +132,7 @@ export default function Navbar() {
           </ul>
         </div>
       </nav>
-         {/* <Marquess></Marquess> */}
+         
     </header>
  
  </div>

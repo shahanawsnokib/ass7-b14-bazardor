@@ -5,7 +5,7 @@ import "react-marquee-text/dist/styles.css"
 const Marquess = async() => {
      const res = await fetch(process.env.All_PRODUCT_API)
     const data = await res.json()
-   console.log("m from", data );
+//    console.log("m from", data );
  
             
      
