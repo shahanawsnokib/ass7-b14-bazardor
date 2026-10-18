@@ -1,25 +1,34 @@
 "use client";
 
-import {Button, Form, Input, Label, TextField} from "@heroui/react";
-// import { defaultAc } from "better-auth/plugins/organization/access";
+import { Button, Form, Input, Label, TextField } from "@heroui/react";
+import toast from "react-hot-toast";
+import { authClient } from "../../../lib/auth-client";
 
 export default function Page() {
-  const onSubmit = (e) => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
+  const exit = async () => {
+    try {
+      await authClient.signOut();
+      toast.success("সাইন আউট সফল হয়েছে");
+    } catch (error) {
+      console.error(error);
+      toast.error("সাইন আউট ব্যর্থ হয়েছে");
+    }
+  };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const formEntries = Object.formEntries(formData.entries())
+    const formEntries = Object.fromEntries(formData.entries());
     console.log(formEntries);
-    
-
-   
-
-    alert(`আপডেট করা হয়েছে: ${JSON.stringify(data, null, 2)}`);
+    toast.success("প্রোফাইল আপডেট করা হয়েছে");
   };
 
   return (
     <div className="min-h-screen bg-[#f0f2f0] p-8 md:p-16">
       <div className="mx-auto max-w-3xl flex flex-col gap-6">
-        {/* Header Section */}
         <div>
           <h1 className="text-2xl font-bold text-gray-900">আমার প্রোফাইল</h1>
           <p className="text-sm text-gray-600 mt-1">
@@ -27,7 +36,6 @@ export default function Page() {
           </p>
         </div>
 
-        {/* User Card */}
         <div className="flex items-center justify-between rounded-2xl bg-white p-6 shadow-sm border border-gray-100/80">
           <div className="flex items-center gap-4">
             <img
@@ -36,11 +44,12 @@ export default function Page() {
               className="h-16 w-16 rounded-2xl object-cover"
             />
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Rezwan Ahmed</h2>
-              <p className="text-sm text-gray-500">rezwanahmed@gmail.com</p>
+              <h2 className="text-xl font-bold text-gray-900">{user?.name}</h2>
+              <p className="text-sm text-gray-500">{user?.email}</p>
             </div>
           </div>
           <Button
+            onClick={exit}
             variant="bordered"
             className="border-red-400 text-red-500 hover:bg-red-50 font-medium rounded-xl px-4 py-2 text-sm flex items-center gap-1.5"
           >
@@ -48,7 +57,6 @@ export default function Page() {
           </Button>
         </div>
 
-        {/* Info Section */}
         <div className="rounded-2xl bg-white p-6 shadow-sm border border-gray-100/80">
           <h3 className="text-base font-bold text-gray-900 mb-6">তথ্য</h3>
 

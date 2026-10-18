@@ -1,11 +1,10 @@
-
+import { Toaster } from 'react-hot-toast';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../app/navbar/page";
 import Footer from "./footer/page";
 import { Suspense } from "react";
-// import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +32,18 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-white text-black">
         <div className="container mx-auto flex flex-1 flex-col px-10">
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+            toastOptions={{
+              duration: 3000,
+              style: {
+                borderRadius: '12px',
+                background: '#111827',
+                color: '#fff',
+              },
+            }}
+          />
           <header>
             <Suspense fallback="Loading....">
             <Navbar />

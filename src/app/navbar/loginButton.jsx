@@ -1,17 +1,24 @@
 "use client";
-import {Button, Dropdown, Avatar} from "@heroui/react";
+import { Button, Dropdown, Avatar } from "@heroui/react";
 import Link from 'next/link';
+import toast from "react-hot-toast";
 import { authClient } from "../../lib/auth-client";
 
+const loginButton = () => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
+  const handeOnSubmit = async () => {
+    try {
+      await authClient.signOut();
+      toast.success("সাইন আউট সফল হয়েছে");
+    } catch (error) {
+      console.error(error);
+      toast.error("সাইন আউট ব্যর্থ হয়েছে");
+    }
+  };
 
-const loginButton =  () => {
-   
-    const {data:session} = authClient.useSession()
-     const user =session?.user;
-    
-     
-    return (
+  return (
       <div>
         {
             user? <div>
@@ -49,7 +56,7 @@ const loginButton =  () => {
             <Link
             href="/sign-in"
             className="rounded-lg border border-green-700 px-2.5 py-2 text-xs font-semibold text-green-700 transition hover:bg-green-50 sm:px-4 sm:text-sm"
-          >
+          onClick={handeOnSubmit}>
             সাইন Out
           </Link>
           </Dropdown.Item>
