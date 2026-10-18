@@ -3,7 +3,15 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 
 
-const client = new MongoClient(process.env.MONGODB_API);
+const mongoUri = process.env.MONGODB_API;
+
+if (!mongoUri) {
+  throw new Error(
+    "MONGODB_API is required. Set it in the environment used to run or build the app.",
+  );
+}
+
+const client = new MongoClient(mongoUri);
 const db = client.db("bazar-dor");
 
 export const auth = betterAuth({
