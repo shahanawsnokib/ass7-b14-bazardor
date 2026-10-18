@@ -6,10 +6,15 @@ export async function proxy(request) {
 
   
 const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
+    headers: await headers() 
+  //  / you need to pass the headers object.
 })
-if(!session?.user){
+ const user = session?.user
+ console.log(user);
+if(!user){
   return NextResponse.redirect(new URL('/sign-in', request.url))
+  
+  
 }
 
 }
